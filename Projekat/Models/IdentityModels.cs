@@ -20,6 +20,10 @@ namespace Projekat.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Film> Films { get; set; }
+        public DbSet<Actor> Actors { get; set; }
+        public DbSet<User> Userss { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
