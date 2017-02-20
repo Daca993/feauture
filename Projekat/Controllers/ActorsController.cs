@@ -15,9 +15,36 @@ namespace Projekat.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Actors
-        public ActionResult Index()
+        public ActionResult Index(string sortBy = "Name", string sortOrder = "ASC", int page = 1, int pageSize = 10, string search = "")
         {
-            return View(db.Actors.ToList());
+            if (Request.UrlReferrer != null)
+            {
+                var oldSearch = HttpUtility.ParseQueryString(Request.UrlReferrer.Query)["Search"];
+                if (search != oldSearch)
+                {
+                    page = 1;
+                }
+            }
+
+            var actors = db.Actors
+                .Where(x => x.Name.Contains(search))
+                .OrderBy(string.Format("{0} {1}", sortBy, sortOrder));
+
+            var count = actors.Count();
+            actors = actors.Skip((page - 1) * pageSize).Take(pageSize);
+
+            var model = new ActorGridViewModel()
+            {
+                SortOrder = sortOrder,
+                SortBy = sortBy,
+                Page = page,
+                PageSize = pageSize,
+                Search = search,
+                Actors = actors.ToList(),
+                Count = count
+            };
+
+            return View(model);
         }
 
         // GET: Actors/Details/5
@@ -46,7 +73,7 @@ namespace Projekat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Surname,BirthDate,BirthPlace,Country")] Actor actor)
+        public ActionResult Create([Bind(Include = "Id,Name,Surname,BirthDate,BirthPlace,Country,City")] Actor actor)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +105,7 @@ namespace Projekat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Surname,BirthDate,BirthPlace,Country")] Actor actor)
+        public ActionResult Edit([Bind(Include = "Id,Name,Surname,BirthDate,BirthPlace,Country,City")] Actor actor)
         {
             if (ModelState.IsValid)
             {

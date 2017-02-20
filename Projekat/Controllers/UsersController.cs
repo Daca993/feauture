@@ -17,7 +17,14 @@ namespace Projekat.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            return View(db.Userss.ToList());
+            //var users = db.Users
+            //    .Where(x => x.Email.Contains(search))
+            //    .OrderBy(string.Format("{0} {1}", sortBy, sortOrder));
+
+            //var count = users.Count();
+            //users = users.Skip((page - 1) * pageSize).Take(pageSize);
+
+            return View(db.Users.ToList());
         }
 
         // GET: Users/Details/5

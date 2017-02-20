@@ -36,5 +36,14 @@ namespace Projekat.Models
         [Display(Name = "Country")]
         [StringLength(100)]
         public string Country { get; set; }
+
+        public string City { get; set; }
+
+    }
+
+    public enum Type
+    {
+        City,
+        Village
     }
 }

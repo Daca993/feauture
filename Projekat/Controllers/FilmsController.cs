@@ -17,9 +17,15 @@ namespace Projekat.Controllers
         // GET: Films
         public ActionResult Index()
         {
+            //var films = db.Films
+            //    .Where(x => x.Country.Contains(search))
+            //    .OrderBy(string.Format("{0} {1}", sortBy, sortOrder));
+
+            //var count = films.Count();
+            //films = films.Skip((page - 1) * pageSize).Take(pageSize);
+
             return View(db.Films.ToList());
         }
-
         // GET: Films/Details/5
         public ActionResult Details(int? id)
         {
